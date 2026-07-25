@@ -1,8 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS raw;
-
-CREATE SCHEMA IF NOT EXISTS dw;
-
-CREATE SCHEMA IF NOT EXISTS analytics;
 
 CREATE TABLE IF NOT EXISTS raw.articles (
     article_id VARCHAR(10),
@@ -31,7 +26,6 @@ CREATE TABLE IF NOT EXISTS raw.articles (
     garment_group_name TEXT,
     detail_desc TEXT
 );
--creat table : raw Schema 안에 articles라는 테이블을 만든다
 
 CREATE TABLE IF NOT EXISTS raw.customers (
     customer_id VARCHAR(64),
@@ -54,11 +48,10 @@ CREATE TABLE IF NOT EXISTS raw.transactions (
 SELECT *
 FROM raw.articles
 LIMIT 10;
---모든 컬럼, 10줄만 ,raw articles에서 
 
 SELECT COUNT(*)
 FROM raw.articles;
--- 전체 행수를 세는 명령어 
+
 
 SELECT COUNT(*)
 FROM raw.customers c ;
@@ -77,7 +70,6 @@ SELECT 'transactions', COUNT(*)
 FROM raw.transactions;
 
 TRUNCATE TABLE raw.transactions;
---raw.transactions 테이블의 구조와 컬럼은 남겨두고, 안에 들어 있는 데이터만 전부 비워라.
 
 SELECT COUNT(*)
 FROM raw.transactions;
