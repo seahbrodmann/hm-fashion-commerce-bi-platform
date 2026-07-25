@@ -1,10 +1,6 @@
 
 
---step1. 빈 dim customer 테이블 만들
---CREATE TABLE dw.dim_customer : dw 공간 안에 dim_customer라는 새 테이블을 만든다.
---고객마다 새로운 숫자를 자동으로만듬 
--- create table : 빈그릇 만들기, insert into : 그릇에 데이터넣기 
--- VARCHAR(64): 최대 64자리 문자
+--step1. 빈 dim customer 테이블 만들기
 
 DROP TABLE IF EXISTS dw.dim_customer;
 
@@ -21,9 +17,7 @@ CREATE TABLE dw.dim_customer (
 );
 
 --step2. raw 고객데이터를 새테이블에 넣기
---INSERT INTO dw.dim_customer : 정리한 데이터를 dim customer에 넣겠다
---raw.customers에서 고객 데이터를 가져와 정리한 뒤 dw.dim_customer에 넣어라.
---case는 excel의 if와 비슷 
+
 INSERT INTO dw.dim_customer (
     customer_id,
     fn,
@@ -64,7 +58,7 @@ SELECT
 FROM raw.customers;
 
 --step 3 연령대 만들기
--- update는 이미들어있는 데이터를 수정하거나 채우는 명령이야 
+
 UPDATE dw.dim_customer
 SET age_group =
     CASE
@@ -78,12 +72,11 @@ SET age_group =
         ELSE '70+'
     END;
 
---행수확
+
 SELECT COUNT(*) 
 FROM dw.dim_customer;
 
 
---고객데이터 일부확인 
 SELECT
     customer_key,
     customer_id,
@@ -94,7 +87,6 @@ SELECT
 FROM dw.dim_customer
 LIMIT 10;
 
---연령대별 고객 수 확인
 SELECT
     age_group,
     COUNT(*) AS customer_count
@@ -103,8 +95,7 @@ GROUP BY age_group
 ORDER BY age_group;
 
 
---dim article 만들기 
---article_key INTEGER GENERATED ALWAYS AS IDENTITY : PostgreSQL이 상품마다 1, 2, 3... 번호를 자동 생성한다.
+--4. dim article 만들기 
 DROP TABLE IF EXISTS dw.dim_article;
 
 CREATE TABLE dw.dim_article (
@@ -130,7 +121,7 @@ CREATE TABLE dw.dim_article (
     detail_desc TEXT
 );
 
---이제 raw.articles에서 필요한 컬럼을 가져와 dw.dim_article에 넣는다.
+--5.이제 raw.articles에서 필요한 컬럼을 가져와 dw.dim_article에 넣는다.
 INSERT INTO dw.dim_article (
     article_id,
     product_code,
@@ -174,11 +165,9 @@ SELECT
     detail_desc
 FROM raw.articles;
 
--- 결과확인 
 SELECT COUNT(*)
 FROM dw.dim_article;
 
---상품 10개를 확인해보자
 SELECT
     article_key,
     article_id,
@@ -191,8 +180,6 @@ FROM dw.dim_article
 LIMIT 10;
 
 
---dim date table create
--- 빈날짜 테이블 만들
 DROP TABLE IF EXISTS dw.dim_date;
 
 CREATE TABLE dw.dim_date (
@@ -210,7 +197,6 @@ CREATE TABLE dw.dim_date (
     is_weekend BOOLEAN NOT NULL
 );
 
---모든 날짜 자동 생성하기 직접 입력안하고 
 INSERT INTO dw.dim_date (
     date_key,
     full_date,
@@ -252,13 +238,11 @@ FROM GENERATE_SERIES(
 SELECT COUNT(*)
 FROM dw.dim_date;
 
---첫날짜와 마지막 날짜확인 
 SELECT
     MIN(full_date) AS first_date,
     MAX(full_date) AS last_date
 FROM dw.dim_date;
 
---날짜데이터 일부 확인
 SELECT *
 FROM dw.dim_date
 ORDER BY full_date
