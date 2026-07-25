@@ -1,8 +1,5 @@
---fact table : 실제 일어난 구매사건 기록하는 표
---dimension table : 고객, 상품, 날짜를 설명하는 표
---Grain은 “Fact table의 한 줄이 무엇을 의미하는가?”라는 뜻
 
---세dimension이 정상인지 먼저 확인 
+--세 dimension이 정상인지 먼저 확인 
 SELECT 'dim_customer' AS table_name, COUNT(*) AS row_count
 FROM dw.dim_customer
 
@@ -17,10 +14,7 @@ SELECT 'dim_date', COUNT(*)
 FROM dw.dim_date;
 
 
---빈 fact transactions 테이블 만들기 
---CREATE TABLE dw.fact_transactions :dw안에 fact transactions 라는 빈테이블을 만든다는뜻
---date_key INTEGER NOT NULL : 거래날짜를 숫자 key로 지정, 날짜는 비어있을수 없음 
---CHECK (sales_channel_id IN (1, 2)) : 채널번호에는 1또는 2만들어갈수 있게 
+--빈 fact transactions 테이블 만들기  
 DROP TABLE IF EXISTS dw.fact_transactions;
 
 CREATE TABLE dw.fact_transactions (
@@ -70,9 +64,6 @@ JOIN dw.dim_customer AS c
 JOIN dw.dim_article AS a
     ON a.article_id = t.article_id;
 
-
---raw와 fact 행수비교하기 
-
 SELECT
     (SELECT COUNT(*)
      FROM raw.transactions) AS raw_transaction_rows,
@@ -80,7 +71,6 @@ SELECT
     (SELECT COUNT(*)
      FROM dw.fact_transactions) AS fact_transaction_rows;
     
---fact tabl에는 숫자 Key만 있어서 그대로보면 의미를 알수없음 
 SELECT *
 FROM dw.fact_transactions
 LIMIT 10;
@@ -141,7 +131,6 @@ ADD CONSTRAINT fk_fact_article
 FOREIGN KEY (article_key)
 REFERENCES dw.dim_article (article_key)
 NOT VALID;
---not valid는 지금 다 검사하지 않고 관계를 먼저 등록한다는 뜻
 
 SELECT 'dim_customer' AS table_name, COUNT(*) AS row_count
 FROM dw.dim_customer
