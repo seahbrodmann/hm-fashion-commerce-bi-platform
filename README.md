@@ -1,5 +1,5 @@
 # H&M Fashion Commerce BI Platform 
-end-to-end fashion commerce analytics platform using H&M public data. 
+This project is end-to-end fashion commerce analytics platform using H&M public data. 
 It combines SQL, Python, Power BI, cloud tools and AI-assisted analytics to support sales, customer, product and recommendation decisions.
 
 ## Project Objective
