@@ -1,0 +1,15 @@
+# Raw Data
+
+The raw H&M dataset is not included in this repository because of its size.
+
+Required files:
+
+- `articles.csv`
+- `customers.csv`
+- `transactions_train.csv`
+
+Download the data from the Kaggle competition:
+
+**https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/data**
+
+Place the three CSV files in this folder before running the PostgreSQL loading script.
